@@ -56,3 +56,31 @@ def is_empty(my_heap):
         return True
     else:
         return False
+
+#Nick
+def priority(my_heap, parent, child):
+    pass
+
+#JP
+def sink(my_heap, pos):
+    pass
+
+#Nick
+def remove(my_heap):
+    pass
+
+#Nick
+def get_first_priority(my_heap):
+    pass
+
+#JP
+def is_present_value(my_heap, value):
+    pass
+
+#JP
+def contains(my_heap, value):
+    pass
+
+#Nick
+def improve_priority(my_heap, priority, value):
+    pass
