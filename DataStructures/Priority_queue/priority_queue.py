@@ -59,7 +59,7 @@ def is_empty(my_heap):
 
 #Nick
 def priority(my_heap, parent, child):
-    pass
+    return my_heap["cmp_function"](parent, child)
 
 #JP
 def sink(my_heap, pos):
@@ -67,11 +67,20 @@ def sink(my_heap, pos):
 
 #Nick
 def remove(my_heap):
-    pass
+    if is_empty(my_heap):
+        return None
+    raiz = al.get_element(my_heap["elements"], 1)
+    exchange(my_heap, 1, my_heap["size"])
+    al.remove_last(my_heap["elements"])
+    my_heap["size"] -= 1
+    sink(my_heap, 1)
+    return pqe.get_value(raiz)
 
 #Nick
 def get_first_priority(my_heap):
-    pass
+    if is_empty(my_heap):
+        return None
+    return pqe.get_value(al.get_element(my_heap["elements"], 1))
 
 #JP
 def is_present_value(my_heap, value):
@@ -83,4 +92,8 @@ def contains(my_heap, value):
 
 #Nick
 def improve_priority(my_heap, priority, value):
-    pass
+    pos = is_present_value(my_heap, value)
+    if pos != -1:
+        pqe.set_priority(al.get_element(my_heap["elements"], pos), priority)
+        swim(my_heap, pos)
+    return my_heap
