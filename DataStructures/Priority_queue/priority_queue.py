@@ -28,7 +28,6 @@ def new_heap(is_min_pq=True):
     al.add_first(heap["elements"], None)
     return heap
 
-
 def insert(my_heap, priority, value):
     entrada = pqe.new_pq_entry(priority, value)
     al.add_last(my_heap["elements"], entrada)
@@ -57,15 +56,25 @@ def is_empty(my_heap):
     else:
         return False
 
-#Nick
 def priority(my_heap, parent, child):
     return my_heap["cmp_function"](parent, child)
 
-#JP
 def sink(my_heap, pos):
-    pass
+    while (pos*2) <= size(my_heap):
+        elem_hijo = al.get_element(my_heap["elements"], pos*2)
+        elem_padre = al.get_element(my_heap["elements"], pos)
+        pos_hijo = pos*2
+        if (pos*2 + 1) <= size(my_heap) and not priority(my_heap, elem_hijo, al.get_element(my_heap["elements"], pos*2 + 1)):
+            elem_hijo = al.get_element(my_heap["elements"], pos*2 + 1)
+            pos_hijo = pos*2 + 1
+        if not priority(my_heap, elem_padre, elem_hijo):
+            exchange(my_heap, pos, pos_hijo)
+            pos = pos_hijo
+        else:
+            break
+    return my_heap
+       
 
-#Nick
 def remove(my_heap):
     if is_empty(my_heap):
         return None
@@ -76,21 +85,23 @@ def remove(my_heap):
     sink(my_heap, 1)
     return pqe.get_value(raiz)
 
-#Nick
 def get_first_priority(my_heap):
     if is_empty(my_heap):
         return None
     return pqe.get_value(al.get_element(my_heap["elements"], 1))
 
-#JP
 def is_present_value(my_heap, value):
-    pass
+    for i in range(1, size(my_heap)+1):
+        elemento = al.get_element(my_heap["elements"], i)
+        if pqe.get_value(elemento) == value:
+            return i
+    return -1
 
-#JP
 def contains(my_heap, value):
-    pass
+    if is_present_value(my_heap, value) != -1:
+        return True
+    return False
 
-#Nick
 def improve_priority(my_heap, priority, value):
     pos = is_present_value(my_heap, value)
     if pos != -1:
