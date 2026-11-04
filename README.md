@@ -12,15 +12,15 @@ Este repositorio forma parte del marco docente de estructura de datos y algoritm
 
 **Tabla de contenido**
 
-1. [Laboratorio 9](#laboratorio-9)
-   1. [Miembros](#Miembros)
-   1. [Acerca del proyecto](#Acerca-del-proyecto)
-      1. [Estructura](#Estructura)
-   1. [Uso](#Uso)
-   1. [Contacto y Soporte](#Contacto-y-Soporte)
-   1. [Contribuir](#Contribuir)
-   1. [Licencia](#Licencia)
-   1. [Autores y Reconocimiento](#Autores-y-Reconocimiento)
+- [Laboratorio 9](#laboratorio-9)
+  - [Miembros](#miembros)
+  - [Acerca del proyecto](#acerca-del-proyecto)
+    - [Estructura](#estructura)
+  - [Uso](#uso)
+  - [Contacto y Soporte](#contacto-y-soporte)
+  - [Contribuir](#contribuir)
+  - [Licencia](#licencia)
+  - [Autores y Reconocimiento](#autores-y-reconocimiento)
 
 ## Miembros
 
@@ -28,6 +28,7 @@ Los estudiantes editan esta sección para agregar sus nombres, correos electrón
 
 1. Nicolas Liz Figueroa, 202611971 n.liz@uniandes.edu.co
 2. Juan Pablo Martinez, 202611361 jp.martinezr1@uniandes.edu.co
+3. Alvaro Andres Villate , 202616607 a.villatel@uniandes.edu.co
 
 [Volver al inicio](#laboratorio-9)
 

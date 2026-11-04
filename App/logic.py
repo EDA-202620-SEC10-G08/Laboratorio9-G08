@@ -28,8 +28,8 @@ import csv
 import time
 import os
 
-# TODO Realice la importación de priority queue
-# TODO Realice la importación de ArrayList (al) o SingleLinked (sl) como estructura de datos auxiliar para sus requerimientos
+from DataStructures.Priority_queue import priority_queue as pq
+from DataStructures.List import array_list as al
 
 
 data_dir = os.path.dirname(os.path.realpath('__file__')) + '/Data/singapur_bus_routes/'
@@ -42,15 +42,15 @@ def new_logic():
     routes_pq: Cola de prioridad para gestionar las rutas de bus (priority_queue)
 
     Returns:
-        dict: Analizador con las claves 'stops' y 'routes_pq' inicializadas a None.
+        dict: Analizador con las claves 'stops' y 'routes_pq' inicializadas.
     """
     analyzer = {
         'stops': None,
         'routes_pq': None
     }
-    
-    analyzer['stops'] = None #TODO completar la creación de la lista
-    analyzer['routes_pq'] = None #TODO completar la creación de la cola de prioridad
+
+    analyzer['stops'] = al.new_list()
+    analyzer['routes_pq'] = pq.new_heap(True)  # MinPQ (orientada a menor)
 
     return analyzer
 
@@ -80,7 +80,7 @@ def add_stop(analyzer, stop):
     ------------
     analyzer : dict
         Estructura de datos principal del analizador que contiene, entre otros,
-        la lista de paradas ('stops') y la cola de prioridad ('pq').
+        la lista de paradas ('stops') y la cola de prioridad ('routes_pq').
     stop : dict
         Información completa de una parada de bus, que incluye al menos los campos:
         - ServiceNo: número de la ruta del bus
@@ -93,24 +93,15 @@ def add_stop(analyzer, stop):
     # Agregar la parada a la lista general de paradas
     al.add_last(analyzer['stops'], stop)
 
-    # TODO: Adicionar nuevo elemento a la cola de prioridad.
-    # Para agregar un elemento a la cola de prioridad tener en cuenta las paradas
-    # cuyo StopSequence sea igual a 1. 
-    # La prioridad debe ser el valor de 'WD_FirstBus' y el valor asociado debe ser
-    # un diccionario con la siguiente estructura:
-    # {
-    #   'route_id': stop['ServiceNo'],
-    #   'direction': stop['Direction'],
-    #   'priority': stop['WD_FirstBus']
-    # }
-    # Ejemplo:
-    # if stop['StopSequence'] == 1:
-    #     element = {
-    #         'route_id': stop['ServiceNo'],
-    #         'direction': stop['Direction'],
-    #         'priority': stop['WD_FirstBus']
-    #     }
-    #     pq.insert(analyzer['pq'], element['priority'], element)
+    # Solo la primera parada (StopSequence == 1) de cada (ruta, dirección)
+    # entra a la cola de prioridad. StopSequence llega como string del CSV.
+    if int(stop['StopSequence']) == 1:
+        element = {
+            'route_id': stop['ServiceNo'],
+            'direction': stop['Direction'],
+            'priority': stop['WD_FirstBus']
+        }
+        pq.insert(analyzer['routes_pq'], element['priority'], element)
 
     return analyzer
 
@@ -141,28 +132,13 @@ def get_next_route(analyzer):
     """
     Atiende la cola de prioridad del analizador.
 
-    Esta función consulta la ruta con mayor prioridad (es decir, la de menor valor 
-    de 'WD_FirstBus'), la elimina de la cola de prioridad y retorna la información 
-    de dicha ruta.
-
-    Parámetros:
-    ------------
-    analyzer : dict
-        Estructura de datos principal del analizador que contiene, entre otros,
-        la cola de prioridad ('pq') con las rutas pendientes de procesar.
-
+    Consulta la ruta con mayor prioridad (la de menor valor de 'WD_FirstBus'),
+    la elimina de la cola de prioridad y retorna la información de dicha ruta.
+    Si la cola está vacía retorna None.
     """
-
-    # TODO: completar la función.
-    # Pasos a seguir:
-    # 1. Consultar el elemento con mayor prioridad en la cola (sin eliminarlo) usando pq.min(analyzer['pq'])
-    # 2. Eliminar ese elemento de la cola usando pq.delMin(analyzer['pq'])
+    # 1. Consultar el elemento con mayor prioridad (sin eliminarlo)
+    next_route = pq.get_first_priority(analyzer['routes_pq'])
+    # 2. Eliminarlo de la cola
+    pq.remove(analyzer['routes_pq'])
     # 3. Retornar la ruta obtenida en el paso 1
-    #
-    # Ejemplo:
-    # next_route = pq.min(analyzer['pq'])
-    # pq.delMin(analyzer['pq'])
-    # return next_route
-
-    pass
-
+    return next_route
